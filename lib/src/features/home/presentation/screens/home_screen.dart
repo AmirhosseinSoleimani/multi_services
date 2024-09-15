@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:multi_service/src/features/shared/resources/color_manager.dart';
+import 'package:multi_service/src/features/shared/resources/value_manager.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -33,12 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
             if (_showIcon)
               Center(
                 child: Container(
+                  width: AppSize.s80,
+                  height: AppSize.s24,
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(AppSize.s24)),
+                    color: ColorLightManager.lightSilver,
                   ),
-                  child: Icon(
-                    Icons.check_circle,
-                    size: 100,
-                    color: Colors.green,
+                  child: Center(
+                    child: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
               ),
