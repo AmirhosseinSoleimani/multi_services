@@ -46,9 +46,11 @@ class DarkThemeData extends AppThemeData {
 
 class LightThemeData extends AppThemeData {
   @override
-  //todo copy from original project
   ThemeData get materialThemeData => ThemeData(
     brightness: Brightness.light,
+    extensions: [
+      ColorThemeExtension.dark(),
+    ],
     textTheme: const TextTheme(
       titleLarge: TextStyle(
           fontFamily: 'YekanBakhNoEn', package: 'component_library'),
