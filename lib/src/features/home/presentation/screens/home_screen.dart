@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:multi_service/src/features/home/presentation/screens/widgets/calendar_screen.dart';
+import 'package:multi_service/src/features/home/presentation/screens/widgets/calendar_with_todo_screen.dart';
+import 'package:multi_service/src/features/home/presentation/screens/widgets/clock_widget.dart';
 import 'package:multi_service/src/shared/resources/color_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'package:multi_service/src/shared/theme/color_theme_extension.dart';
@@ -35,20 +38,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height,
                 color: colorTheme?.white,
-                child: Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GoogleSearchScreen(query: 'Flutter development'),
-                          ),
-                        );
-                      },
-                      child: Text('dd'),
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GoogleSearchScreen(query: 'Flutter development'),
+                            ),
+                          );
+                        },
+                        child: Text('dd'),
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          height: 600,
+                          child: CalendarPage(),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 1020,
+                        child: CalendarWithTodoScreen(),
+                      ),
+                      SizedBox(
+                          width: double.infinity,
+                          height: 500,
+                          child: ClockPage()),
+                    ],
+                  ),
                 ),
               ),
               if (_showIcon)
