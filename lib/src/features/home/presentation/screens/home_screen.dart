@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_service/src/features/home/presentation/screens/widgets/calendar_screen.dart';
 import 'package:multi_service/src/features/home/presentation/screens/widgets/calendar_with_todo_screen.dart';
 import 'package:multi_service/src/features/home/presentation/screens/widgets/clock_widget.dart';
+import 'package:multi_service/src/features/home/presentation/screens/widgets/digital_clock.dart';
 import 'package:multi_service/src/shared/resources/color_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'package:multi_service/src/shared/theme/color_theme_extension.dart';
@@ -66,6 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: double.infinity,
                           height: 500,
                           child: ClockPage()),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 400,
+                        child: DigitalClock(),
+                      )
                     ],
                   ),
                 ),
