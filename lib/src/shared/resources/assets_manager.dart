@@ -12,6 +12,7 @@ class IconManager {
   static const IconData addMaterial = Icons.add;
   static const IconData dragHandle = Icons.drag_handle_outlined;
   static const IconData search = Icons.search_outlined;
+  static const IconData close = Icons.close;
 
 }
 
