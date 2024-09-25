@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:multi_service/src/features/home/presentation/provider/home_provider.dart';
+import 'package:multi_service/src/features/home/presentation/provider/home_controller/home_provider.dart';
+import 'package:multi_service/src/features/home/presentation/provider/widget_controller/widget_provider.dart';
 import 'package:multi_service/src/features/home/presentation/screens/widgets/animated_bottom_sheet.dart';
 import 'package:multi_service/src/shared/resources/assets_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
@@ -17,6 +18,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeProvider);
     final controller = ref.read(homeProvider.notifier);
+    final widgets = ref.watch(widgetProvider);
+    final widgetController = ref.read(widgetProvider.notifier);
     return SafeArea(
       child: Scaffold(
         body: GestureDetector(
@@ -24,7 +27,8 @@ class HomeScreen extends ConsumerWidget {
           onTap: () => controller.changeStateToFalse(),
           child: Stack(
             children: [
-              Container(
+              (widgets.isEmpty) ?
+              SizedBox(
                 width: MediaQuery.sizeOf(context).width,
                 height: MediaQuery.sizeOf(context).height,
                 child: SingleChildScrollView(
@@ -41,45 +45,34 @@ class HomeScreen extends ConsumerWidget {
                         },
                         child: Text('dd'),
                       ),
-                      // SizedBox(
-                      //     width: double.infinity,
-                      //     height: 600,
-                      //     child: CalendarPage(),
-                      // ),
-                      // SizedBox(
-                      //   width: double.infinity,
-                      //   height: 1020,
-                      //   child: CalendarWithTodoScreen(),
-                      // ),
-                      // SizedBox(
-                      //     width: double.infinity,
-                      //     height: 500,
-                      //     child: ClockPage()),
-                      // SizedBox(
-                      //   width: double.infinity,
-                      //   height: 400,
-                      //   child: DigitalClock(),
-                      // ),
-                      // SizedBox(
-                      //   width: double.infinity,
-                      //   height: 400,
-                      //   child: ParsiMap(),
-                      // ),
-                      // SizedBox(
-                      //   width: double.infinity,
-                      //   height: 400,
-                      //   child: MapScreen(),
-                      // ),
-                      // SizedBox(
-                      //   width: double.infinity,
-                      //   height: 600,
-                      //   child: NewsScreen(),
-                      // )
                     ],
                   ),
                 ),
+              ) :
+              Padding(
+                padding: const EdgeInsets.only(top: AppPadding.p28),
+                child: SizedBox(
+                  width: MediaQuery.sizeOf(context).width,
+                  height: MediaQuery.sizeOf(context).height,
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                    ),
+                    itemCount: widgets.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 4,
+                        child: Center(child: widgets[index].widget),
+                      );
+                    },
+                  ),
+                ),
               ),
-                AnimatedOpacity(
+              AnimatedOpacity(
                   duration: DurationConstant.d500,
                   opacity: (state.value ?? false) ?  AppSize.s1 : AppSize.s0,
                   child: Padding(
@@ -89,7 +82,7 @@ class HomeScreen extends ConsumerWidget {
                       children: [
                         IconButtonWidget(
                           onTap: () {
-                            showAnimatedBottomSheet(context);
+                            showAnimatedBottomSheet(context, ref);
                           },
                           iconData: IconManager.addCupertino,
                           iconColor: Theme.of(context).colorScheme.surface,

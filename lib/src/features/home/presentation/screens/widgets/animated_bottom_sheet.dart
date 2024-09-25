@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'bottom_sheet_content_widget.dart';
 
 
 
-void showAnimatedBottomSheet(BuildContext context) {
+void showAnimatedBottomSheet(BuildContext context, WidgetRef ref, {Widget? widget}) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).hoverColor,
@@ -15,7 +16,7 @@ void showAnimatedBottomSheet(BuildContext context) {
       duration: DurationConstant.d500,
     ),
     builder: (context) {
-      return _buildBottomSheetContent(context).animate().slideY(
+      return _buildBottomSheetContent(context, ref).animate().slideY(
         begin: 1.0,
         end: 0.0,
         duration: 500.ms,
@@ -24,7 +25,7 @@ void showAnimatedBottomSheet(BuildContext context) {
     },
   );
 }
-Widget _buildBottomSheetContent(BuildContext context) {
+Widget _buildBottomSheetContent(BuildContext context, WidgetRef widgetRef) {
   return Container(
     height: MediaQuery.sizeOf(context).height * 0.7,
     decoration: BoxDecoration(
@@ -34,6 +35,6 @@ Widget _buildBottomSheetContent(BuildContext context) {
         topRight: Radius.circular(AppSize.s18),
       ),
     ),
-    child: const BottomSheetContentWidget(),
+    child: BottomSheetContentWidget(ref: widgetRef,),
   );
 }

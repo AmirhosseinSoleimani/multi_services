@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multi_service/src/features/home/presentation/provider/widget_controller/widget_provider.dart';
+import 'package:multi_service/src/features/widgets/chrome_widget/chrome_widget.dart';
 import 'package:multi_service/src/shared/resources/assets_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'package:multi_service/src/shared/ui_kit/inkwell_button_widget/inkwell_button_widget.dart';
@@ -7,7 +10,8 @@ import 'package:multi_service/src/shared/ui_kit/svg_widget/svg_widget.dart';
 import 'package:multi_service/src/shared/ui_kit/text_form_field_widget/text_form_field_widget.dart';
 
 class BottomSheetContentWidget extends StatefulWidget {
-  const BottomSheetContentWidget({super.key});
+  const BottomSheetContentWidget({super.key, required this.ref});
+  final WidgetRef ref;
 
   @override
   State<BottomSheetContentWidget> createState() => _BottomSheetContentWidgetState();
@@ -61,7 +65,7 @@ class _BottomSheetContentWidgetState extends State<BottomSheetContentWidget> {
                       setState(() {
                         _iconTapped = true;
                       });
-                      _showBottomSheetWithAnimation(context, chromeWidget(context));
+                      _showBottomSheetWithAnimation(context, chromeWidget(context), widget.ref);
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -101,41 +105,9 @@ class _BottomSheetContentWidgetState extends State<BottomSheetContentWidget> {
   }
 }
 
-Widget chromeWidget(BuildContext context) {
-  return Container(
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s8),
-        color: Theme.of(context).colorScheme.surface.withOpacity(0.5)
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8, vertical: AppPadding.p12),
-      child: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: AppSize.s60,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s28),
-                color: Theme.of(context).colorScheme.primaryContainer
-            ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppPadding.p12),
-              child: Row(
-                children: [
-                  SVGWidget(svgPath: SVGManager.chrome, size: AppSize.s32,)
-                ],
-              ),
-            ),
-          ),
-          Space.h8,
-          Text('Search or type URL', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),),
-        ],
-      ),
-    ),
-  );
-}
 
-void _showBottomSheetWithAnimation(BuildContext context,Widget widget) {
+
+void _showBottomSheetWithAnimation(BuildContext context,Widget widget, WidgetRef ref) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).hoverColor,
@@ -145,7 +117,7 @@ void _showBottomSheetWithAnimation(BuildContext context,Widget widget) {
       duration: DurationConstant.d500,
     ),
     builder: (context) {
-      return _buildBottomSheetContent(context, widget).animate().slideY(
+      return _buildBottomSheetContent(context, widget, ref).animate().slideY(
           begin: 1.0,
           end: 0.0,
           duration: 500.ms,
@@ -155,7 +127,7 @@ void _showBottomSheetWithAnimation(BuildContext context,Widget widget) {
   );
 }
 
-Widget _buildBottomSheetContent(BuildContext context, Widget widget) {
+Widget _buildBottomSheetContent(BuildContext context, Widget widget, WidgetRef ref) {
   return Container(
     height: MediaQuery.sizeOf(context).height * 0.7,
     decoration: BoxDecoration(
@@ -221,7 +193,12 @@ Widget _buildBottomSheetContent(BuildContext context, Widget widget) {
           Space.h16,
           const Spacer(),
           InkwellButtonWidget(
-            onTap: () {},
+            onTap: () {
+              final widgetController = ref.read(widgetProvider.notifier);
+              widgetController.addWidget(chromeWidget(context, width: 150, height: 250));
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
             borderColor: Theme.of(context).colorScheme.onPrimary,
             backgroundColor: Theme.of(context).colorScheme.onPrimary,
             child: Row(
