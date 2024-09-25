@@ -4,6 +4,7 @@ import 'package:multi_service/src/features/home/presentation/provider/home_provi
 import 'package:multi_service/src/features/home/presentation/screens/widgets/animated_bottom_sheet.dart';
 import 'package:multi_service/src/shared/resources/assets_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
+import 'package:multi_service/src/shared/ui_kit/icon_button_widget/icon_button_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -20,6 +21,7 @@ class HomeScreen extends ConsumerWidget {
       child: Scaffold(
         body: GestureDetector(
           onLongPress: () => controller.changeStateToTrue(),
+          onTap: () => controller.changeStateToFalse(),
           child: Stack(
             children: [
               Container(
@@ -85,45 +87,28 @@ class HomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
+                        IconButtonWidget(
                           onTap: () {
                             showAnimatedBottomSheet(context);
                           },
-                          child: Container(
-                            width: AppSize.s80,
-                            height: AppSize.s32,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(AppSize.s24)),
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            child: Center(
-                              child: Icon(
-                                IconManager.addCupertino,
-                                color: Theme.of(context).colorScheme.surface,
-                              ),
-                            ),
-                          ),
+                          iconData: IconManager.addCupertino,
+                          iconColor: Theme.of(context).colorScheme.surface,
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
+
                         ),
-                        GestureDetector(
+                        IconButtonWidget(
                           onTap: () {
-                            ref.read(homeProvider.notifier).changeStateToFalse();
+                            controller.changeStateToFalse();
                           },
-                          child: Container(
-                            width: AppSize.s80,
-                            height: AppSize.s32,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(Radius.circular(AppSize.s24)),
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Done',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: Theme.of(context).colorScheme.surface
-                                ),
-                              ),
+                          iconColor: Theme.of(context).colorScheme.surface,
+                          backgroundColor: Theme.of(context).colorScheme.secondary,
+                          child: Text(
+                            'Done',
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.surface
                             ),
                           ),
+
                         ),
                       ],
                     ),

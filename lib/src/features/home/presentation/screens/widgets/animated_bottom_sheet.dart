@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
+import 'bottom_sheet_content_widget.dart';
 
 
 
@@ -8,6 +9,7 @@ void showAnimatedBottomSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     backgroundColor: Theme.of(context).hoverColor,
+    isScrollControlled: true,
     transitionAnimationController: AnimationController(
       vsync: Navigator.of(context),
       duration: DurationConstant.d500,
@@ -24,7 +26,7 @@ void showAnimatedBottomSheet(BuildContext context) {
 }
 Widget _buildBottomSheetContent(BuildContext context) {
   return Container(
-    height: AppSize.s300,
+    height: MediaQuery.sizeOf(context).height * 0.7,
     decoration: BoxDecoration(
       color: Theme.of(context).colorScheme.primaryContainer,
       borderRadius: const BorderRadius.only(
@@ -32,20 +34,6 @@ Widget _buildBottomSheetContent(BuildContext context) {
         topRight: Radius.circular(AppSize.s18),
       ),
     ),
-    child: Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          const Text(
-            'This is a modal bottom sheet!',
-            style: TextStyle(fontSize: 18),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
-    ),
+    child: const BottomSheetContentWidget(),
   );
 }
