@@ -1,63 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:multi_service/src/features/home/presentation/screens/home_screen.dart';
-import 'package:multi_service/src/shared/app_settings/cubit/app_settings_cubit.dart';
-import 'package:multi_service/src/shared/app_settings/cubit/app_settings_state.dart';
-import 'package:multi_service/src/shared/app_settings/domain/app_brightness.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:multi_service/src/shared/resources/app_constants.dart';
-import 'package:multi_service/src/shared/theme/app_theme.dart';
-import 'package:multi_service/src/shared/theme/app_theme_data.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multi_service/src/route/app_routing.dart';
+import 'package:multi_service/src/shared/theme/provider/theme_controller.dart';
+import 'package:multi_service/src/shared/theme/provider/theme_provider.dart';
 
-class MyApp extends StatelessWidget {
-   MyApp({super.key});
-
-  final LightThemeData _lightTheme = LightThemeData();
-  final DarkThemeData _darkTheme = DarkThemeData();
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => AppSettingsCubit(keyValueStorage: KeyValueStorage(),),
-        child: BlocBuilder<AppSettingsCubit, AppSettingsState>(
-          builder: (context, state) {
-            return StreamBuilder(
-              stream: context.watch<AppSettingsCubit>().getAppBrightnessMode(),
-              builder: (context, snapshot) {
-                final brightnessMode = snapshot.data;
-                if(snapshot.hasData) {
-                  return AppTheme(
-                    lightTheme: _lightTheme,
-                    darkTheme: _darkTheme,
-                    child: MaterialApp(
-                      title: 'Flutter Demo',
-                      theme: _lightTheme.materialThemeData,
-                      darkTheme: _darkTheme.materialThemeData,
-                      themeMode: brightnessMode?.toThemeMode(),
-                      home: const HomeScreen(),
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
-            );
-          },
-        ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeController = ref.read(themeControllerProvider.notifier);
+    final appTheme = ref.watch(themeControllerProvider).maybeWhen(
+      data: (themeState) => themeState.appTheme,
+      orElse: () => AppTheme.system,
+    );
+    return MaterialApp.router(
+      theme: themeController.getTheme(appTheme),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English
+        Locale('fa', ''), // Farsi
+      ],
+      locale: const Locale('en'),
+      routerConfig: Routes.routes(),
     );
   }
 }
 
-
-
-extension on AppBrightnessMode {
-  ThemeMode toThemeMode() {
-    switch (this) {
-      case AppBrightnessMode.alwaysDark:
-        return ThemeMode.dark;
-      case AppBrightnessMode.alwaysLight:
-        return ThemeMode.light;
-      case AppBrightnessMode.useSystemSetting:
-        return ThemeMode.system;
-    }
-  }
-}
 
