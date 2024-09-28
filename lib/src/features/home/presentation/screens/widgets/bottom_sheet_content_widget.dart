@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_service/src/features/chrome/presentation/widgets/chrome_widget.dart';
 import 'package:multi_service/src/features/chrome/presentation/widgets/chrome_bottom_sheet_type_widget.dart';
+import 'package:multi_service/src/features/clock/presentation/clock_screen.dart';
 import 'package:multi_service/src/features/home/presentation/screens/widgets/animated_bottom_sheet.dart';
 import 'package:multi_service/src/shared/resources/assets_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
@@ -69,6 +70,31 @@ class _BottomSheetContentWidgetState extends State<BottomSheetContentWidget> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const ChromeWidget(),
+                        Space.h8,
+                        Text(
+                          'Chrome',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        Text(
+                          'Search',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSecondary),
+                        )
+                      ],
+                    ),
+                  );
+                } else if (index == 1) {
+                  return InkWell(
+                    onTap: () {
+                      showAnimatedBottomSheet(context: context, ref: widget.ref, bottomSheetContent: (BuildContext context, WidgetRef ref, {Widget? widget}) {
+                        return buildBottomSheetContentType(context, const ChromeBottomSheetTypeWidget());
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const ClockScreen(),
                         Space.h8,
                         Text(
                           'Chrome',
