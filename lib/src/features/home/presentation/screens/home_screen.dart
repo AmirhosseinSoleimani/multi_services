@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:multi_service/src/features/clock/presentation/clock_screen.dart';
+import 'package:multi_service/src/features/clock/presentation/stop_watch/stop_watch_widget.dart';
 import 'package:multi_service/src/features/home/presentation/provider/home_controller/home_provider.dart';
 import 'package:multi_service/src/features/home/presentation/provider/widget_controller/widget_provider.dart';
 import 'package:multi_service/src/shared/ui_kit/animated_bottom_sheet/animated_bottom_sheet.dart';

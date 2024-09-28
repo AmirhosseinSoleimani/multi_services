@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:multi_service/src/features/clock/presentation/widgets/stop_watch_rendered.dart';
+import 'package:multi_service/src/features/clock/presentation/stop_watch/widgets/stop_watch_rendered.dart';
 
-class StopWatchWidget extends StatefulWidget {
-  const StopWatchWidget({super.key});
+class StopWatch extends StatefulWidget {
+  const StopWatch({super.key});
 
   @override
-  State<StopWatchWidget> createState() => _StopWatchWidgetState();
+  State<StopWatch> createState() => _StopWatchState();
 }
 
-class _StopWatchWidgetState extends State<StopWatchWidget>
+class _StopWatchState extends State<StopWatch>
     with SingleTickerProviderStateMixin {
   bool isRunning = false;
   late final Ticker _ticker;

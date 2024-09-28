@@ -1,11 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:multi_service/src/features/clock/presentation/widgets/control_buttons_widget.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'center_nob.dart';
 import 'clock_hand.dart';
 import 'clock_marker.dart';
-import 'elapsed_time_text.dart';
 
 class StopWatchRenderer extends StatelessWidget {
   const StopWatchRenderer(

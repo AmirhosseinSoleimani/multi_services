@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 

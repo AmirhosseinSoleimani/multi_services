@@ -55,6 +55,7 @@ class DurationConstant{
   static const Duration d100 = Duration(milliseconds: 100);
   static const Duration d300 = Duration(milliseconds: 300);
   static const Duration d500 = Duration(milliseconds: 500);
+  static const Duration d1000 = Duration(milliseconds: 1000);
   static const Duration d2000 = Duration(milliseconds: 2000);
   static const Duration d3000 = Duration(milliseconds: 3000);
 }
