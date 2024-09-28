@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_service/src/features/home/presentation/provider/home_controller/home_provider.dart';
 import 'package:multi_service/src/features/home/presentation/provider/widget_controller/widget_provider.dart';
-import 'package:multi_service/src/features/home/presentation/screens/widgets/animated_bottom_sheet.dart';
+import 'package:multi_service/src/shared/ui_kit/animated_bottom_sheet/animated_bottom_sheet.dart';
+import 'package:multi_service/src/features/home/presentation/screens/widgets/bottom_sheet_content.dart';
 import 'package:multi_service/src/shared/resources/assets_manager.dart';
 import 'package:multi_service/src/shared/resources/value_manager.dart';
 import 'package:multi_service/src/shared/ui_kit/icon_button_widget/icon_button_widget.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 
 class HomeScreen extends ConsumerWidget {
@@ -36,12 +36,6 @@ class HomeScreen extends ConsumerWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GoogleSearchScreen(query: 'Flutter development'),
-                            ),
-                          );
                         },
                         child: Text('dd'),
                       ),
@@ -82,7 +76,9 @@ class HomeScreen extends ConsumerWidget {
                       children: [
                         IconButtonWidget(
                           onTap: () {
-                            showAnimatedBottomSheet(context, ref);
+                            showAnimatedBottomSheet(context: context, ref: ref, bottomSheetContent: (BuildContext context, WidgetRef ref, {Widget? widget}) {
+                              return buildBottomSheetContent(context, ref);
+                            });
                           },
                           iconData: IconManager.addCupertino,
                           iconColor: Theme.of(context).colorScheme.surface,
@@ -111,40 +107,6 @@ class HomeScreen extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-
-
-class GoogleSearchScreen extends StatefulWidget {
-  final String query;
-
-  const GoogleSearchScreen({Key? key, required this.query}) : super(key: key);
-
-  @override
-  _GoogleSearchScreenState createState() => _GoogleSearchScreenState();
-}
-
-class _GoogleSearchScreenState extends State<GoogleSearchScreen> {
-  late final WebViewController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize for Android WebView support (for iOS no need)
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(Uri.parse('https://www.google.com/search?q=${widget.query}'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Google Search'),
-      ),
-      body: WebViewWidget(controller: _controller),
     );
   }
 }
